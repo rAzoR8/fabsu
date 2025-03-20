@@ -7,6 +7,7 @@ if(WIN32)
 else()
     #set(ROCM_SDK "/opt/rocm" CACHE PATH "HIP / ROCm SDK Dir")
 
+    # not all distors install rocm to /opt/rocm!
     find_program(HIP_CONFIG hipconfig HINTS "/opt/rocm" "/usr/bin")
     if(NOT HIP_CONFIG)
         message(FATAL_ERROR "hipconfig not found!")
@@ -39,7 +40,7 @@ project(
     fabsu
     VERSION 1.0
     DESCRIPTION "Fabsu"
-    LANGUAGES ${GPU_LANGUAGE}) # when using ${GPU_LANGUAGE} or HIP here, VS Code syntax highlighting does not work
+    LANGUAGES CXX) # when using ${GPU_LANGUAGE} or HIP here, VS Code syntax highlighting does not work
 
 enable_language(${GPU_LANGUAGE})
 
@@ -49,8 +50,7 @@ enable_language(${GPU_LANGUAGE})
 
 # https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/debug-launch.md#debug-using-a-launchjson-file
 
-# TODO: this breaks stdlibc cmath.h include
-# but without this VS Code intellisense does not work.
+# TODO: this breaks stdlibc cmath.h include but without this VS Code intellisense does not work.
 #set(CMAKE_HIP_FLAGS "${CMAKE_HIP_FLAGS} -isystem ${ROCM_SDK}/include")
 
 message(STATUS "CMAKE_HIP_FLAGS_DEBUG: ${CMAKE_HIP_FLAGS_DEBUG}")
@@ -63,10 +63,10 @@ set(fabsu_INC
 )
 
 set(fabsu_SRC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/fabsu.hip
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/fabsu.cpp
 )
 
 add_executable(fabsu ${fabsu_SRC})
 target_include_directories(fabsu PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(fabsu PRIVATE ${ROCM_SDK}/include)
-#set_source_files_properties(${fabsu_SRC} PROPERTIES LANGUAGE ${GPU_LANGUAGE})
+target_include_directories(fabsu PRIVATE ${ROCM_SDK}/include) # this is not enough to make VSCode find <hip/hip_runtime.h>
+set_source_files_properties(${fabsu_SRC} PROPERTIES LANGUAGE ${GPU_LANGUAGE})
