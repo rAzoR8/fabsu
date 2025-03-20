@@ -30,6 +30,21 @@
                 }
             ]
         },
+        { // https://github.com/microsoft/vscode-cpptools/issues/3648
+          // stepping into functions does not work
+            "name": "(rocgdb) Fabsu",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/rocgdb",
+            // "launchCompleteCommand": "exec-run",
+        },
         {
             "type": "cmake",
             "request": "launch",
@@ -38,6 +53,5 @@
             "clean": false,
             "configureAll": false
         }
-
     ]
 }

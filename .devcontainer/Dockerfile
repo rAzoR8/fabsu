@@ -1,7 +1,5 @@
 FROM rocm/dev-ubuntu-24.04:6.2
 
-#ENV PIP_BREAK_SYSTEM_PACKAGES=1
-
 WORKDIR /workspace
 
 RUN apt-get update

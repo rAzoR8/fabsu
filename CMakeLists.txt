@@ -39,13 +39,13 @@ project(
     fabsu
     VERSION 1.0
     DESCRIPTION "Fabsu"
-    LANGUAGES CXX) # when using ${GPU_LANGUAGE} or HIP here, VS Code syntax highlighting does not work
+    LANGUAGES ${GPU_LANGUAGE}) # when using ${GPU_LANGUAGE} or HIP here, VS Code syntax highlighting does not work
 
 enable_language(${GPU_LANGUAGE})
 
 # https://stackoverflow.com/questions/10085945/set-cflags-and-cxxflags-options-using-cmake
-set(CMAKE_HIP_FLAGS_DEBUG "${CMAKE_HIP_FLAGS_DEBUG} -ggdb") # doesn't seem to work, VSCode source line info still wrong when stepping
- # https://github.com/pelagos-consulting/HIP_Course/blob/main/course_material/L4_Debugging/CMakeLists.txt
+# set(CMAKE_HIP_FLAGS_DEBUG "${CMAKE_HIP_FLAGS_DEBUG} -ggdb") # doesn't seem to work, VSCode source line info still wrong when stepping
+# https://github.com/pelagos-consulting/HIP_Course/blob/main/course_material/L4_Debugging/CMakeLists.txt
 
 # https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/debug-launch.md#debug-using-a-launchjson-file
 
@@ -63,10 +63,10 @@ set(fabsu_INC
 )
 
 set(fabsu_SRC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/fabsu.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/fabsu.hip
 )
 
 add_executable(fabsu ${fabsu_SRC})
 target_include_directories(fabsu PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(fabsu PRIVATE ${ROCM_SDK}/include)
-set_source_files_properties(${fabsu_SRC} PROPERTIES LANGUAGE ${GPU_LANGUAGE})
+#set_source_files_properties(${fabsu_SRC} PROPERTIES LANGUAGE ${GPU_LANGUAGE})

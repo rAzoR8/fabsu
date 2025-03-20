@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            // https://github.com/ROCm/ROCm/discussions/2561
+            // path "/opt/rocm/hip/include/**" does not exist, use rocm/include
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include/**", // fedora installed HIP here
+                "/opt/rocm/include/**"
+            ],
+            "defines": ["__HIP_PLATFORM_AMD__"],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}

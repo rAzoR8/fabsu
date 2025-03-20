@@ -1,6 +1,7 @@
 #include <hip/hip_runtime.h>
 #include <iostream>
 
+// breakpoints never trigger
 int test(){
     int i = 0;
     ++i;
@@ -12,6 +13,9 @@ int main(){
     // https://code.visualstudio.com/docs/cpp/launch-json-reference#_launchcompletecommand
 
     int devices{0};
+
+    // can't step into functions
+    devices = test();
     hipGetDeviceCount(&devices);
 
     hipDeviceProp_t props;

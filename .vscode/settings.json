@@ -1,3 +1,14 @@
 {
-    "cmake.sourceDirectory": "/workspaces/fabsu"
+    "cmake.sourceDirectory": "/workspaces/fabsu",
+    // https://github.com/microsoft/vscode-cmake-tools/discussions/2999
+	"cmake.debugConfig": { // if not using F5 to start debugging
+		"name": "(rocgdb) CMake project",
+		"type": "cppdbg",
+		"request": "launch",
+		"program": "${command:cmake.launchTargetPath}",
+        "cwd": "${fileDirname}",
+        "externalConsole": false,
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/rocgdb"
+	}
 }
