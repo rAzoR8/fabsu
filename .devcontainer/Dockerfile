@@ -8,6 +8,7 @@ RUN apt-get install python-is-python3 -y
 RUN apt-get install pip -y
 RUN apt-get install git -y
 RUN apt-get install curl -y
+RUN apt-get install gdb -y
 #RUN apt-get install ffmpeg -y
 RUN apt-get install cmake -y
 

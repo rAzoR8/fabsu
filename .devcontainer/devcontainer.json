@@ -2,10 +2,17 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
 	"name": "HIP",
-	"build": {
-		"dockerfile": "Dockerfile"
+	"build": { // do i need build?
+		"dockerfile": "Dockerfile"	
 	},
-
+	// https://stackoverflow.com/questions/66192875/how-to-pass-a-device-on-devcontainer
+	"runArgs": [
+		"--device=/dev/kfd",
+		"--device=/dev/dri",
+		"--security-opt", "seccomp=unconfined",
+		"--group-add", "video",
+		"--ipc=host"
+	],
 	"customizations": {
 		// Configure properties specific to VS Code.
 		"vscode": {

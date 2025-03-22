@@ -17,7 +17,7 @@
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb",
-            "launchCompleteCommand": "exec-run",
+            //"launchCompleteCommand": "exec-run",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -35,20 +35,20 @@
             "program": "${workspaceFolder}/build/fabsu",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}/build",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/rocgdb",
             "launchCompleteCommand": "exec-run"
         },
-        {
-            "type": "cmake",
-            "request": "launch",
-            "name": "CMake: Configure project",
-            "cmakeDebugType": "configure",
-            "clean": false,
-            "configureAll": false
-        }
+        // {
+        //     "type": "cmake",
+        //     "request": "launch",
+        //     "name": "CMake: Configure project",
+        //     "cmakeDebugType": "configure",
+        //     "clean": false,
+        //     "configureAll": false
+        // }
     ]
 }

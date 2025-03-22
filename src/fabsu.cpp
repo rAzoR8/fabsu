@@ -18,13 +18,13 @@ int main(){
     devices = test();
     hipGetDeviceCount(&devices);
 
+    std::cout << "Found " << devices << " HIP Devices"  << std::endl;
+
     hipDeviceProp_t props;
 
     for(int d = 0; d < devices; ++d){
         hipGetDeviceProperties(&props, 0);
-        if (d == test()){
-            std::cout << props.name << std::endl;
-        }
+        std::cout << props.name << std::endl;
     }
 
     return devices;
