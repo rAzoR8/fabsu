@@ -1,6 +1,8 @@
 #include <hip/hip_runtime.h>
 #include <iostream>
 
+// https://github.com/microsoft/vscode-cpptools/issues/3831
+
 // breakpoints never trigger
 int test(){
     int i = 0;
