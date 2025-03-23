@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 
-set(GPU_LANGUAGE "HIP" CACHE STRING "GPU Lang: HIP or CUDA")
+set(GPU_LANGUAGE "HIP" CACHE STRING "GPU Lang: HIP or CUDA or CXX")
 
 if(WIN32)
     set(ROCM_SDK "$ENV(HIP_PATH)" CACHE PATH "HIP / ROCm SDK Dir") 
@@ -25,10 +25,8 @@ endif()
 # https://github.com/ROCm/HIP/issues/3406
 # https://lists.llvm.org/pipermail/cfe-commits/Week-of-Mon-20250106/660706.html
 
-# list(APPEND CMAKE_PREFIX_PATH "${ROCM_SDK}")
-#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/lib64/cmake/hip/)
-
 message(STATUS "ROCm SDK: ${ROCM_SDK}")
+list(APPEND CMAKE_PREFIX_PATH "${ROCM_SDK}")
 message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 
 set(CMAKE_HIP_COMPILER_ROCM_ROOT ${ROCM_SDK})
@@ -44,29 +42,38 @@ project(
 
 enable_language(${GPU_LANGUAGE})
 
-# https://stackoverflow.com/questions/10085945/set-cflags-and-cxxflags-options-using-cmake
 # set(CMAKE_HIP_FLAGS_DEBUG "${CMAKE_HIP_FLAGS_DEBUG} -ggdb") # doesn't seem to work, VSCode source line info still wrong when stepping
 # https://github.com/pelagos-consulting/HIP_Course/blob/main/course_material/L4_Debugging/CMakeLists.txt
 
-# https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/debug-launch.md#debug-using-a-launchjson-file
-
-# TODO: this breaks stdlibc cmath.h include but without this VS Code intellisense does not work.
-#set(CMAKE_HIP_FLAGS "${CMAKE_HIP_FLAGS} -isystem ${ROCM_SDK}/include")
-
+message(STATUS "GPU_LANGUAGE: ${GPU_LANGUAGE}")
 message(STATUS "CMAKE_HIP_FLAGS_DEBUG: ${CMAKE_HIP_FLAGS_DEBUG}")
 message(STATUS "CMAKE_HIP_FLAGS: ${CMAKE_HIP_FLAGS}")
 message(STATUS "CMAKE_CUDA_FLAGS: ${CMAKE_CUDA_FLAGS}")
 message(STATUS "CMAKE_HIP_ARCHITECTURES:" ${CMAKE_HIP_ARCHITECTURES})
 
-set(fabsu_INC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/fabsu.hpp
-)
+# set(fabsu_app_INC
+#     ${CMAKE_CURRENT_SOURCE_DIR}/include/fabsu.hpp
+# )
 
-set(fabsu_SRC
+set(fabsu_app_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/fabsu.cpp
 )
 
-add_executable(fabsu ${fabsu_SRC})
-target_include_directories(fabsu PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(fabsu PRIVATE ${ROCM_SDK}/include) # this is not enough to make VSCode find <hip/hip_runtime.h>
-set_source_files_properties(${fabsu_SRC} PROPERTIES LANGUAGE ${GPU_LANGUAGE})
+add_executable(fabsu_app ${fabsu_app_SRC})
+
+# this is outdated; opt/rocm/ does not have any cmake folder:
+# https://github.com/ROCm/hip/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable#including-findhip-cmake-module-in-the-project
+# set(CMAKE_MODULE_PATH "${ROCM_SDK}/cmake" ${CMAKE_MODULE_PATH})
+
+# https://cgmb-rocm-docs.readthedocs.io/en/latest/Installation_Guide/Using-CMake-with-AMD-ROCm.html
+
+# https://rocm.docs.amd.com/en/latest/conceptual/cmake-packages.html
+find_package(hip REQUIRED) # needed when project lang is CXX
+target_link_libraries(fabsu_app PRIVATE hip::host)
+
+# when using HIP for GPU_LANGUAGE instead of CXX, debugging with gdb or rocgdb does not work (stepping over every function, source line association broken)
+set_target_properties(fabsu_app PROPERTIES LINKER_LANGUAGE ${GPU_LANGUAGE})
+set_source_files_properties(${fabsu_app_SRC} PROPERTIES LANGUAGE ${GPU_LANGUAGE})
+
+target_include_directories(fabsu_app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(fabsu_app PRIVATE ${ROCM_SDK}/include) # this is not enough to make VSCode find <hip/hip_runtime.h>

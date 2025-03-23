@@ -1,6 +1,5 @@
 {
     // only for running through dev-container
-    //"cmake.sourceDirectory": "/workspaces/fabsu",
     "cmake.sourceDirectory": "${workspaceFolder}",
     // https://github.com/microsoft/vscode-cmake-tools/discussions/2999
 	"cmake.debugConfig": { // if not using F5 to start debugging

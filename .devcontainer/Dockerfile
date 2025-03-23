@@ -1,4 +1,4 @@
-FROM rocm/dev-ubuntu-24.04:6.2
+FROM rocm/dev-ubuntu-24.04:6.3
 
 WORKDIR /workspace
 
@@ -9,7 +9,6 @@ RUN apt-get install pip -y
 RUN apt-get install git -y
 RUN apt-get install curl -y
 RUN apt-get install gdb -y
-#RUN apt-get install ffmpeg -y
 RUN apt-get install cmake -y
 
 #USER rocm-user

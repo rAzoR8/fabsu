@@ -1,14 +1,12 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // # https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/debug-launch.md#debug-using-a-launchjson-file
     "version": "0.2.0",
     "configurations": [
         { // use system gdb, upstream gdb is supposed to have support for HIP debugging
             "name": "(gdb) Fabsu",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/fabsu",
+            "program": "${workspaceFolder}/build/fabsu_app",
             //"program": "${command:cmake.launchTargetPath}",
             "args": [],
             "stopAtEntry": false,
@@ -32,7 +30,7 @@
             "type": "cppdbg",
             "request": "launch",
             //"program": "${command:cmake.launchTargetPath}",
-            "program": "${workspaceFolder}/build/fabsu",
+            "program": "${workspaceFolder}/build/fabsu_app",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",
@@ -41,14 +39,6 @@
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/rocgdb",
             "launchCompleteCommand": "exec-run"
-        },
-        // {
-        //     "type": "cmake",
-        //     "request": "launch",
-        //     "name": "CMake: Configure project",
-        //     "cmakeDebugType": "configure",
-        //     "clean": false,
-        //     "configureAll": false
-        // }
+        }
     ]
 }
