@@ -34,6 +34,10 @@ set(CMAKE_${GPU_LANGUAGE}_STANDARD 17)
 set(CMAKE_${GPU_LANGUAGE}_STANDARD_REQUIRED ON)
 set(CMAKE_${GPU_LANGUAGE}_EXTENSIONS OFF)
 
+# it doesnt matter which approach to take, setting LANGUAGES to CXX or ${GPU_LANGUAGE} / HIP
+# debugging with gdb/rocgdb does not work as soon as the application is build with HIP clang
+# CXX projects built with gcc or reglar clang debug just fine with both gdb and rocgdb
+
 project(
     fabsu
     VERSION 1.0
@@ -68,8 +72,10 @@ add_executable(fabsu_app ${fabsu_app_SRC})
 # https://cgmb-rocm-docs.readthedocs.io/en/latest/Installation_Guide/Using-CMake-with-AMD-ROCm.html
 
 # https://rocm.docs.amd.com/en/latest/conceptual/cmake-packages.html
+# with this setup only __device__ __host__ void print_hello() can be stepped into
 find_package(hip REQUIRED) # needed when project lang is CXX
 target_link_libraries(fabsu_app PRIVATE hip::host)
+target_link_libraries(fabsu_app PRIVATE hip::device)
 
 # when using HIP for GPU_LANGUAGE instead of CXX, debugging with gdb or rocgdb does not work (stepping over every function, source line association broken)
 set_target_properties(fabsu_app PROPERTIES LINKER_LANGUAGE ${GPU_LANGUAGE})

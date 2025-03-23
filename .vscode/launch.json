@@ -38,7 +38,7 @@
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/rocgdb",
-            "launchCompleteCommand": "exec-run"
+            // "launchCompleteCommand": "exec-run"
         }
     ]
 }
