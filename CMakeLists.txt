@@ -47,7 +47,7 @@ message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 enable_language(${GPU_LANGUAGE})
 
 # due to non standard behaviour of hip clang, we need to completely disable any optimization to be able to debug
-set(CMAKE_HIP_FLAGS_DEBUG "${CMAKE_HIP_FLAGS_DEBUG} -O0") 
+set(CMAKE_HIP_FLAGS_DEBUG "-O0 -ggdb3") 
 
 message(STATUS "PROJECT_LANGUAGE: ${PROJECT_LANGUAGE}")
 message(STATUS "GPU_LANGUAGE: ${GPU_LANGUAGE}")
