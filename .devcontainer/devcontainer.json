@@ -1,8 +1,9 @@
 {
 	"name": "HIP",
-	"build": { // do i need build?
+	"build": {
 		"dockerfile": "Dockerfile"	
 	},
+	// https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/docker.html#accessing-gpus-in-containers
 	"runArgs": [
 		"--device=/dev/kfd",
 		"--device=/dev/dri",

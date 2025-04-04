@@ -10,10 +10,10 @@
                 "/opt/rocm/include/**"
             ],
             "defines": ["__HIP_PLATFORM_AMD__"],
-            "compilerPath": "/usr/bin/gcc",
+            "compilerPath": "/usr/bin/hipcc",
             "cStandard": "c17",
-            "cppStandard": "gnu++17",
-            "intelliSenseMode": "linux-gcc-x64",
+            "cppStandard":"c++17",
+            "intelliSenseMode": "linux-clang-x64",
             "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],

@@ -2,7 +2,7 @@
     // # https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/debug-launch.md#debug-using-a-launchjson-file
     "version": "0.2.0",
     "configurations": [
-        { // use system gdb, upstream gdb is supposed to have support for HIP debugging
+        { // use system gdb, upstream gdb has support for HIP debugging
             "name": "(gdb) Fabsu",
             "type": "cppdbg",
             "request": "launch",
@@ -15,7 +15,6 @@
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb",
-            //"launchCompleteCommand": "exec-run",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -24,8 +23,7 @@
                 }
             ]
         },
-        { // https://github.com/microsoft/vscode-cpptools/issues/3648
-          // stepping into functions does not work
+        {
             "name": "(rocgdb) Fabsu",
             "type": "cppdbg",
             "request": "launch",
@@ -38,7 +36,6 @@
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/rocgdb",
-            // "launchCompleteCommand": "exec-run"
         }
     ]
 }

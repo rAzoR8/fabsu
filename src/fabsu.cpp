@@ -1,15 +1,6 @@
 #include <hip/hip_runtime.h>
 #include <iostream>
 
-// https://github.com/microsoft/vscode-cpptools/issues/3831
-
-// breakpoints never trigger
-int test(){
-    int i = 0;
-    ++i;
-    return i;
-}
-
 // Functions marked with __device__ are executed on the device and called from the device only.
 __device__ unsigned int get_thread_idx()
 {
@@ -46,21 +37,22 @@ __global__ void helloworld_kernel()
 
 int main(){
 
-    // https://code.visualstudio.com/docs/cpp/launch-json-reference#_launchcompletecommand
-
     int devices{0};
-
-    // can't step into functions
-    devices = test();
-    hipGetDeviceCount(&devices);
+    hipError_t error = hipGetDeviceCount(&devices);
+    assert(error == hipError_t::hipSuccess);
 
     std::cout << "Found " << devices << " HIP Devices"  << std::endl;
+
+    if (devices < 1)
+    {
+        return 0;
+    }
 
     hipDeviceProp_t props;
 
     for(int d = 0; d < devices; ++d){
-        hipGetDeviceProperties(&props, 0);
-        std::cout << props.name << std::endl;
+        hipGetDeviceProperties(&props, d);
+        std::cout << props.name << ": " << props.gcnArchName << std::endl;
     }
 
     print_hello_host();
@@ -74,8 +66,12 @@ int main(){
                         hipStreamDefault // stream where the kernel should execute: default stream
                         >>>();
 
+    error = hipGetLastError();
+    assert(error == hipError_t::hipSuccess);
+
     // Wait on all active streams on the current device.
-    hipDeviceSynchronize();
+    error = hipDeviceSynchronize();
+    assert(error == hipError_t::hipSuccess);
 
     return devices;
 }

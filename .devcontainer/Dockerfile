@@ -15,16 +15,8 @@ RUN apt-get install cmake -y
 
 ENV AMD_LOG_LEVEL=3
 
-#USER rocm-user
-#WORKDIR /home/rocm-user
-#ENV PATH "${PATH}:/opt/rocm/bin"
+# enable specific devices
+# ENV HIP_VISIBLE_DEVICES="0,2"
 
-# The following are optional enhancements for the command-line experience
-# Uncomment the following to install a pre-configured vim environment based on http://vim.spf13.com/
-# 1.  Sets up an enhanced command line dev environment within VIM
-# 2.  Aliases GDB to enable TUI mode by default
-#RUN curl -sL https://j.mp/spf13-vim3 | bash && \
-#    echo "alias gdb='gdb --tui'\n" >> ~/.bashrc
-
-# Default to a login shell
-#CMD ["bash", "-l"]
+# https://rocm.docs.amd.com/projects/HIP/en/docs-6.0.0/how_to_guides/debugging.html#dump-code-object
+# ENV GPU_DUMP_CODE_OBJECT=1
