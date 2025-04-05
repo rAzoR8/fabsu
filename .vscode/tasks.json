@@ -1,0 +1,23 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+      { // rocprof is not available on Fedora because of closed source depencencies (see https://fedoraproject.org/wiki/SIGs/HC#Installation)
+        "label": "(rocprofv2) Fabsu",
+        "type": "shell",
+        "command": "/usr/bin/rocprofv2",
+        "args": ["--plugin", "perfetto", "--hip-trace", "-d", "${workspaceFolder}/trace" ,"${workspaceFolder}/build/fabsu_app"],
+        "windows": {
+            // TODO: PATH
+            //"command": ".\\scripts\\test.cmd"
+        }
+      },
+      { // https://rocm.docs.amd.com/projects/rocprofiler-systems/en/latest/install/install.html#issues-with-rhel-and-selinux
+        "label": "(rocprof-sys-sample) Fabsu",
+        "type": "shell",
+        "command": "/opt/rocm/bin/rocprof-sys-sample", // rocprof-sys-sample 
+        "args": ["-f", "1000", "--", "${workspaceFolder}/build/fabsu_app"]
+      }
+    ]
+  }
